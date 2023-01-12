@@ -1,0 +1,4 @@
+#remove build files
+/.vs
+/database/bin
+/database/obj
