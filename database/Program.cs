@@ -12,7 +12,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: "allow dev", policy =>
     {
-        policy.WithOrigins("localhost:3000", "https://lively-wave-0723cd803.2.azurestaticapps.net/");
+        policy.WithOrigins("http://localhost:3000", "https://lively-wave-0723cd803.2.azurestaticapps.net/");
     });
 });
 
@@ -34,6 +34,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("allow dev");
 
 app.MapControllers();
 
