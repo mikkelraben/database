@@ -8,6 +8,14 @@ builder.Services.Configure<TodoDatabaseSettings>(builder.Configuration.GetSectio
 
 builder.Services.AddSingleton<TodosService>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "allow dev", policy =>
+    {
+        policy.WithOrigins("https://localhost:3000", "https://lively-wave-0723cd803.2.azurestaticapps.net/");
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

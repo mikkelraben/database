@@ -20,6 +20,9 @@ namespace database.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Todo newTodo)
         {
+            //should probably bound amount of todos
+
+            
             newTodo.Id = ObjectId.GenerateNewId().ToString();
             await todosService.CreateAsync(newTodo);
             return CreatedAtAction(nameof(Get), new {id = newTodo.Id}, newTodo);
