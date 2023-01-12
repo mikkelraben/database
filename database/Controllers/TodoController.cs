@@ -21,7 +21,14 @@ namespace database.Controllers
         public async Task<IActionResult> Post(Todo newTodo)
         {
             //should probably bound amount of todos
-
+            if(todosService.length().Result > 20)
+            {
+                return BadRequest();
+            }
+            if(newTodo.Data.Length > 100)
+            {
+                return BadRequest(newTodo.Data);
+            }
             
             newTodo.Id = ObjectId.GenerateNewId().ToString();
             await todosService.CreateAsync(newTodo);
@@ -37,6 +44,11 @@ namespace database.Controllers
             if(todo is null)
             {
                 return NotFound();
+            }
+
+            if (updatedTodo.Data.Length > 100)
+            {
+                return BadRequest(updatedTodo.Data);
             }
 
             updatedTodo.Id = todo.Id;

@@ -10,11 +10,16 @@ namespace database.Services
 
         public TodosService(IOptions<TodoDatabaseSettings> options)
         {
-            var mongoClient = new MongoClient(options.Value.ConnectionString);
+            var connectionString = Environment.GetEnvironmentVariable("COSMOS_CONNECTION");
+            var mongoClient = new MongoClient(connectionString);
             var mongoDatabase = mongoClient.GetDatabase(options.Value.DatabaseName);
             _collection = mongoDatabase.GetCollection<Todo>(options.Value.CollectionName);
         }
 
+        public async Task<long> length()
+        {
+            return await _collection.CountDocumentsAsync(_ => true);
+        }
         public async Task<string> createIndex()
         {
             var indexKeysDefinition = Builders<Todo>.IndexKeys.Ascending(todo => todo.Id);
