@@ -10,10 +10,14 @@ namespace database.Services
 
         public TodosService(IOptions<TodoDatabaseSettings> options)
         {
-            var connectionString = Environment.GetEnvironmentVariable("COSMOS_CONNECTION");
-            var mongoClient = new MongoClient(connectionString);
+            var mongoClient = new MongoClient(options.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(options.Value.DatabaseName);
             _collection = mongoDatabase.GetCollection<Todo>(options.Value.CollectionName);
+        }
+        private static string GetEnvironmentVariable(string name)
+        {
+            return name + ": " +
+                System.Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Process);
         }
 
         public async Task<long> length()
